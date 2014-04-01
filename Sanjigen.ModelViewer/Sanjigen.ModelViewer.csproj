@@ -89,7 +89,7 @@
       <Name>AwesomeControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Libraries\UniversalEditor.Core\UniversalEditor.Core.csproj">
-      <Project>{A92D520B-FFA3-4464-8CF6-474D18959E03}</Project>
+      <Project>{a92d520b-ffa3-4464-8cf6-474d18959e03}</Project>
       <Name>UniversalEditor.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Essential\UniversalEditor.Essential.csproj">
@@ -97,16 +97,16 @@
       <Name>UniversalEditor.Essential</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Multimedia3D\UniversalEditor.Plugins.Multimedia3D.csproj">
-      <Project>{4FD9DB1D-76AA-48D1-8446-95376C4A2BC2}</Project>
+      <Project>{4fd9db1d-76aa-48d1-8446-95376c4a2bc2}</Project>
       <Name>UniversalEditor.Plugins.Multimedia3D</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UniversalEditor\CSharp\Plugins\UniversalEditor.Plugins.Multimedia\UniversalEditor.Plugins.Multimedia.csproj">
-      <Project>{BE4D0BA3-0888-42A5-9C09-FC308A4509D2}</Project>
+      <Project>{be4d0ba3-0888-42a5-9c09-fc308a4509d2}</Project>
       <Name>UniversalEditor.Plugins.Multimedia</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sanjigen\Sanjigen.csproj">
-      <Project>{ED627DF7-3E78-4428-AB31-810BA1586E62}</Project>
-      <Name>Caltron</Name>
+      <Project>{ed627df7-3e78-4428-ab31-810ba1586e62}</Project>
+      <Name>Sanjigen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
