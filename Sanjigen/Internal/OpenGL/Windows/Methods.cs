@@ -10,6 +10,7 @@ namespace Caltron.Internal.OpenGL.Windows
 	internal static class Methods
     {
         private const string LIBRARY_OPENGL = "opengl32.dll";
+        // private const global::System.Runtime.InteropServices.CallingConvention CALLINGCONVENTION_OPENGL = CallingConvention.Winapi;
 
         [DllImport(LIBRARY_OPENGL)]
         public static extern void glAccum(int operation, float value);
@@ -303,5 +304,17 @@ namespace Caltron.Internal.OpenGL.Windows
 
         [DllImport(LIBRARY_OPENGL)]
         public static extern void glOrtho(double left, double right, double bottom, double top, double near, double far);
+
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern void glGetIntegerv(int pname, int[] paramz);
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern void glGetFloatv(int pname, float[] paramz);
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern void glGetDoublev(int pname, double[] paramz);
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern void glGetBooleanv(int pname, bool[] paramz);
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern void glGetPointv(int pname, IntPtr paramz);
+
     }
 }

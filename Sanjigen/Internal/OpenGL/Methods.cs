@@ -2830,5 +2830,28 @@ namespace Caltron.Internal.OpenGL
 			}
 			throw new PlatformNotSupportedException();
 		}
-	}
+
+        public static void glGetIntegerv(int property, int[] retval)
+        {
+            if (retval == null) throw new ArgumentNullException("Please initialize retval array before calling glGetIntegerv");
+
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.MacOSX:
+                    break;
+                case PlatformID.Unix:
+                    Linux.Methods.glGetIntegerv(property, retval);
+                    return;
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
+                    Windows.Methods.glGetIntegerv(property, retval);
+                    return;
+                case PlatformID.Xbox:
+                    break;
+            }
+            throw new PlatformNotSupportedException();
+        }
+    }
 }
