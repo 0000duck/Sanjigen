@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Diagnostics;
 
 namespace Caltron.Internal.OpenGL
 {
@@ -2852,6 +2853,65 @@ namespace Caltron.Internal.OpenGL
                     break;
             }
             throw new PlatformNotSupportedException();
+        }
+
+        public static Constants.GLError glGetError()
+        {
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.MacOSX:
+                    break;
+                case PlatformID.Unix:
+                    return Linux.Methods.glGetError();
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
+                    return Windows.Methods.glGetError();
+                case PlatformID.Xbox:
+                    break;
+            }
+            throw new PlatformNotSupportedException();
+        }
+
+        /// <summary>
+        /// Retrieves the next glError and converts it to an exception if it is any value other than GL_NO_ERROR.
+        /// </summary>
+        [DebuggerNonUserCode()]
+        internal static void glErrorToException()
+        {
+            Internal.OpenGL.Constants.GLError error = Internal.OpenGL.Methods.glGetError();
+            switch (error)
+            {
+                case Constants.GLError.InvalidEnum:
+                {
+                    throw new InvalidEnumerationException();
+                }
+                case Constants.GLError.InvalidFrameBufferOperation:
+                {
+                    throw new InvalidFrameBufferException();
+                }
+                case Constants.GLError.InvalidOperation:
+                {
+                    throw new InvalidOperationException();
+                }
+                case Constants.GLError.InvalidValue:
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                case Constants.GLError.OutOfMemory:
+                {
+                    throw new OutOfMemoryException();
+                }
+                case Constants.GLError.StackOverflow:
+                {
+                    throw new StackOverflowException();
+                }
+                case Constants.GLError.StackUnderflow:
+                {
+                    throw new StackUnderflowException();
+                }
+            }
         }
     }
 }

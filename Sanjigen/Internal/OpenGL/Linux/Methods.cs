@@ -328,5 +328,7 @@ namespace Caltron.Internal.OpenGL.Linux
         [DllImport(LIBRARY_OPENGL, CallingConvention = CALLINGCONVENTION_OPENGL)]
         public static extern void glGetPointv(int pname, [Out] IntPtr @params);
 
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern Constants.GLError glGetError();
     }
 }

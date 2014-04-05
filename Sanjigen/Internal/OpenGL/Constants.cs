@@ -2912,6 +2912,42 @@ namespace Caltron.Internal.OpenGL
             UnsignedShort = 5123,
             UnsignedInt = 5125
         }
+
+        public enum GLError
+        {
+            /// <summary>
+            /// No error has been recorded. The value of this symbolic constant is guaranteed to be 0.
+            /// </summary>
+            None = 0,
+            /// <summary>
+            /// An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.
+            /// </summary>
+            InvalidEnum = 1280,
+            /// <summary>
+            /// A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.
+            /// </summary>
+            InvalidValue = 1281,
+            /// <summary>
+            /// The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.
+            /// </summary>
+            InvalidOperation = 1282,
+            /// <summary>
+            /// An attempt has been made to perform an operation that would cause an internal stack to overflow.
+            /// </summary>
+            StackOverflow = 1283,
+            /// <summary>
+            /// An attempt has been made to perform an operation that would cause an internal stack to underflow.
+            /// </summary>
+            StackUnderflow = 1284,
+            /// <summary>
+            /// There is not enough memory left to execute the command. The state of the GL is undefined, except for the state of the error flags, after this error is recorded.
+            /// </summary>
+            OutOfMemory = 1285,
+            /// <summary>
+            /// The framebuffer object is not complete. The offending command is ignored and has no other side effect than to set the error flag.
+            /// </summary>
+            InvalidFrameBufferOperation = 1286
+        }
 	    
         // TODO: Finish this!!
 

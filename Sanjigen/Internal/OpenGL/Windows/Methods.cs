@@ -316,5 +316,7 @@ namespace Caltron.Internal.OpenGL.Windows
         [DllImport(LIBRARY_OPENGL)]
         public static extern void glGetPointv(int pname, IntPtr paramz);
 
+        [DllImport(LIBRARY_OPENGL)]
+        public static extern Constants.GLError glGetError();
     }
 }
