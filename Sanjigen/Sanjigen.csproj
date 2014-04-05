@@ -97,6 +97,8 @@
     <Compile Include="Internal\OpenGL\Linux\Methods.cs" />
     <Compile Include="Internal\OpenGL\Methods.cs" />
     <Compile Include="Internal\OpenGL\Windows\Methods.cs" />
+    <Compile Include="InvalidEnumerationException.cs" />
+    <Compile Include="InvalidFrameBufferException.cs" />
     <Compile Include="LightCollection.cs" />
     <Compile Include="MatrixMode.cs" />
     <Compile Include="ObjectModels\GLVMExecutable\Commands\GLVMExecutableCommandCaltron.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="ResizeEvent.cs" />
     <Compile Include="RotationAxis.cs" />
     <Compile Include="ChildWindow.cs" />
+    <Compile Include="StackUnderflowException.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="TextureFilter.cs" />
     <Compile Include="TextureFlip.cs" />
