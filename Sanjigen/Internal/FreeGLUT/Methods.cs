@@ -1339,5 +1339,30 @@ namespace Caltron.Internal.FreeGLUT
 			}
 			throw new PlatformNotSupportedException();
 		}
+
+		public static void glutTimerFunc(int msecs, Delegates.TimerCallback func, int value)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+				{
+					Linux.Methods.glutTimerFunc(msecs, func, value);
+					return;
+				}
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+				{
+					Windows.Methods.glutTimerFunc(msecs, func, value);
+					return;
+				}
+				case PlatformID.Xbox:
+					break;
+			}
+			throw new PlatformNotSupportedException();
+		}
 	}
 }
