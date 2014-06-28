@@ -6,6 +6,7 @@ using System.Text;
 using UniversalEditor;
 using UniversalEditor.Accessors;
 using UniversalEditor.ObjectModels.Multimedia3D.Model;
+using Caltron.ObjectModels.TextureFont;
 
 namespace Caltron
 {
@@ -975,8 +976,10 @@ namespace Caltron
 			Internal.OpenGL.Methods.glScaled(x, y, z);
 		}
 
-		public void DrawText(string text, double x, double y, double size = 0.1, float weight = 1.0f)
+		public void DrawText(string text, double x, double y, double size = 0.1, float weight = 1.0f, Font font = null)
 		{
+			if (font == null) font = Fonts.StrokeRoman;
+			
 			Internal.OpenGL.Methods.glPushMatrix();
 
 			Translate(x, y);
@@ -985,8 +988,51 @@ namespace Caltron
 
 			Internal.OpenGL.Methods.glLineWidth(weight);
 			// Internal.OpenGL.Methods.glRasterPos2d(x, y);
-			// Internal.FreeGLUT.Methods.glutBitmapString(Internal.FreeGLUT.Constants.GLUT_BITMAP_HELVETICA_10, text);
-			Internal.FreeGLUT.Methods.glutStrokeString(Internal.FreeGLUT.Constants.GLUT_STROKE_ROMAN, text);
+			if (font is SystemFont)
+			{
+				SystemFont sysfont = (font as SystemFont);
+				switch (sysfont.FontType)
+				{
+					case SystemFontType.Stroke:
+					{
+						Internal.FreeGLUT.Methods.glutStrokeString(sysfont.Handle, text);
+						break;
+					}
+					case SystemFontType.Bitmap:
+					{
+						Internal.FreeGLUT.Methods.glutBitmapString(sysfont.Handle, text);
+						break;
+					}
+				}
+			}
+			else if (font is BitmapFont)
+			{
+				BitmapFont bmpfont = (font as BitmapFont);
+				string filename = bmpfont.Font.TextureFileName;
+				filename = filename.Replace ("~/", System.IO.Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ().Location) + "/");
+				
+				if (!System.IO.File.Exists(filename))
+				{
+					Console.WriteLine ("bitmap font file not found: \"" + bmpfont.Font.TextureFileName + "\"");
+					return;
+				}
+				
+				Texture texture = Texture.FromFile(filename);
+				Texture oldTexture = this.Texture;
+				this.Texture = texture;
+				
+				for (int i = 0; i < text.Length; i++)
+				{
+					char chr = text[i];
+					TextureFontCharacter chara = bmpfont.Font.Characters[chr];
+					if (chara == null) continue;
+						
+					int index = chara.Index;
+					// TODO: get 
+				}
+				
+				this.Texture = oldTexture;
+			}
 
 			Internal.OpenGL.Methods.glPopMatrix();
 		}
