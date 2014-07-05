@@ -295,33 +295,7 @@ namespace Caltron
 
 		public void Begin(RenderMode mode)
 		{
-			switch (mode)
-			{
-				case RenderMode.Lines:
-					{
-						// Drawing Using Lines
-						Internal.OpenGL.Methods.glBegin(Internal.OpenGL.Constants.GL_LINES);
-						break;
-					}
-				case RenderMode.Triangles:
-					{
-						// Drawing Using Triangles
-						Internal.OpenGL.Methods.glBegin(Internal.OpenGL.Constants.GL_TRIANGLES);
-						break;
-					}
-				case RenderMode.Quads:
-					{
-						// Draw A Quad
-						Internal.OpenGL.Methods.glBegin(Internal.OpenGL.Constants.GL_QUADS);
-						break;
-					}
-				case RenderMode.Points:
-					{
-						// Draw A Quad
-						Internal.OpenGL.Methods.glBegin(Internal.OpenGL.Constants.GL_POINTS);
-						break;
-					}
-			}
+			Internal.OpenGL.Methods.glBegin((int)mode);
 
 			mvarOpsBegun++;
 		}
@@ -1077,6 +1051,42 @@ namespace Caltron
 			width *= 0.1;
 			height *= 0.1;
 			return new Dimension2D(width, height);
+		}
+
+		private const double DEG2RAD = (double)3.14159 / 180;
+		public void DrawCircle(double centerPointX, double centerPointY, double radius)
+		{
+			Begin(Caltron.RenderMode.LineLoop);
+			for (int i = 0; i < 360; i++)
+			{
+				double degInRad = i * DEG2RAD;
+				Internal.OpenGL.Methods.glVertex2d(centerPointX + (Math.Cos(degInRad) * radius), centerPointY + (Math.Sin(degInRad) * radius));
+			}
+			End();
+		}
+		public void DrawCircle(double x, double y, double w, double h)
+		{
+			double radius = w / 2;
+			double centerPointX = x + radius;
+			double centerPointY = y + radius;
+			DrawCircle(centerPointX, centerPointY, radius);
+		}
+		public void FillCircle(double centerPointX, double centerPointY, double radius)
+		{
+			Begin(Caltron.RenderMode.LineLoop);
+			for (int i=0; i < 360; i++)
+			{
+				double degInRad = i*DEG2RAD;
+				Internal.OpenGL.Methods.glVertex2d(centerPointX + (Math.Cos(degInRad) * radius), centerPointY + (Math.Sin(degInRad) * radius));
+			}
+			End();
+		}
+		public void FillCircle(double x, double y, double w, double h)
+		{
+			double radius = w / 2;
+			double centerPointX = x + radius;
+			double centerPointY = y + radius;
+			FillCircle(centerPointX, centerPointY, radius);
 		}
 	}
 }
