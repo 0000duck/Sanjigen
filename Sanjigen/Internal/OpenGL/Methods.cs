@@ -15,8 +15,263 @@ namespace Caltron.Internal.OpenGL
     /// Description of GL.
     /// </summary>
     public static class Methods
-    {
-        public static void glAccum(int num1, float num2)
+	{
+		#region Normalize Coordinates - special magic needed on (at least) Windows
+		private static void glNormalizeCoordinates(ref double x, ref double y)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref float x, ref float y)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref int x, ref int y)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref short x, ref short y)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += (short)global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += (short)global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref double x, ref double y, ref double z)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref float x, ref float y, ref float z)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref int x, ref int y, ref int z)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref short x, ref short y, ref short z)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += (short)global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += (short)global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref double x, ref double y, ref double z, ref double w)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref float x, ref float y, ref float z, ref float w)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref int x, ref int y, ref int z, ref int w)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		private static void glNormalizeCoordinates(ref short x, ref short y, ref short z, ref short w)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					break;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					// small adjustments required on Windows, who knows why
+					y += (short)global::System.Windows.Forms.SystemInformation.CaptionHeight;
+					y += (short)global::System.Windows.Forms.SystemInformation.Border3DSize.Height;
+					y++;
+					break;
+				case PlatformID.Xbox:
+					break;
+			}
+		}
+		#endregion
+
+		public static void glAccum(int num1, float num2)
         {
             switch (Environment.OSVersion.Platform)
             {
@@ -613,6 +868,7 @@ namespace Caltron.Internal.OpenGL
 
         public static void glVertex2d(double x, double y)
         {
+			glNormalizeCoordinates(ref x, ref y);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -632,7 +888,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex2f(float x, float y)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -652,7 +909,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex2i(int x, int y)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -774,7 +1032,8 @@ namespace Caltron.Internal.OpenGL
         }
 
         public static void glVertex3d(double x, double y, double z)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -794,7 +1053,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex3f(float x, float y, float z)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -814,7 +1074,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex3i(int x, int y, int z)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -834,7 +1095,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex3s(short x, short y, short z)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -875,7 +1137,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex4f(float x, float y, float z, float w)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z, ref w);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -895,7 +1158,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex4i(int x, int y, int z, int w)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z, ref w);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
@@ -915,7 +1179,8 @@ namespace Caltron.Internal.OpenGL
             throw new PlatformNotSupportedException();
         }
         public static void glVertex4s(short x, short y, short z, short w)
-        {
+		{
+			glNormalizeCoordinates(ref x, ref y, ref z, ref w);
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.MacOSX:
