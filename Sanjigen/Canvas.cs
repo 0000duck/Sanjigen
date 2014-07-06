@@ -394,6 +394,8 @@ namespace Caltron
 		private Dictionary<PictureObjectModel, Texture> _texturesByPicture = new Dictionary<PictureObjectModel, Texture>();
 		public void DrawImage(double x, double y, double w, double h, PictureObjectModel picture)
 		{
+			if (picture == null) return;
+
 			if (!_texturesByPicture.ContainsKey(picture))
 			{
 				Texture _texture = Texture.FromPicture(picture);
