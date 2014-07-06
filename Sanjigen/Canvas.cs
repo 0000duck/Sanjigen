@@ -7,6 +7,7 @@ using UniversalEditor;
 using UniversalEditor.Accessors;
 using UniversalEditor.ObjectModels.Multimedia3D.Model;
 using Caltron.ObjectModels.TextureFont;
+using UniversalEditor.ObjectModels.Multimedia.Picture;
 
 namespace Caltron
 {
@@ -390,20 +391,33 @@ namespace Caltron
 			End();
 		}
 
-		private Dictionary<string, Texture> _textures = new Dictionary<string, Texture>();
+		private Dictionary<PictureObjectModel, Texture> _texturesByPicture = new Dictionary<PictureObjectModel, Texture>();
+		public void DrawImage(double x, double y, double w, double h, PictureObjectModel picture)
+		{
+			if (!_texturesByPicture.ContainsKey(picture))
+			{
+				Texture _texture = Texture.FromPicture(picture);
+				_texturesByPicture.Add(picture, _texture);
+			}
+			DrawImage(x, y, w, h, _texturesByPicture[picture]);
+		}
+		private Dictionary<string, Texture> _texturesByFileName = new Dictionary<string, Texture>();
 		public void DrawImage(double x, double y, double w, double h, string imageFileName)
+		{
+			if (!_texturesByFileName.ContainsKey(imageFileName))
+			{
+				Texture _texture = Texture.FromFile(imageFileName);
+				_texturesByFileName.Add(imageFileName, _texture);
+			}
+			DrawImage(x, y, w, h, _texturesByFileName[imageFileName]);
+		}
+		public void DrawImage(double x, double y, double w, double h, Texture texture)
 		{
 			double r = x + w, b = y + h;
 
-			if (!_textures.ContainsKey(imageFileName))
-			{
-				Texture _texture = Texture.FromFile(imageFileName);
-				_textures.Add(imageFileName, _texture);
-			}
-
 			Internal.OpenGL.Methods.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			
-			Texture = _textures[imageFileName];
+			Texture = texture;
 			Internal.OpenGL.Methods.glTexEnv(Internal.OpenGL.Constants.TextureEnvironmentTarget.TextureEnvironment, Internal.OpenGL.Constants.TextureEnvironmentParameterName.TextureEnvironmentMode, Internal.OpenGL.Constants.TextureEnvironmentParameterValue.Replace);
 
 			EnableBlending = true;
@@ -1073,7 +1087,7 @@ namespace Caltron
 		}
 		public void FillCircle(double centerPointX, double centerPointY, double radius)
 		{
-			Begin(Caltron.RenderMode.LineLoop);
+			Begin(Caltron.RenderMode.Polygon);
 			for (int i=0; i < 360; i++)
 			{
 				double degInRad = i*DEG2RAD;
