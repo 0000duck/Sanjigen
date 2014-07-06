@@ -16,6 +16,20 @@ namespace Caltron
 			mvarInterval = interval;
 		}
 
+		private static List<Internal.FreeGLUT.Delegates.TimerCallback> _TimerCallbacks = new List<Internal.FreeGLUT.Delegates.TimerCallback>();
+		public static void SetTimeout(int timeout, EventHandler callback, EventArgs e = null)
+		{
+			if (e == null) e = EventArgs.Empty;
+
+			Internal.FreeGLUT.Delegates.TimerCallback callback1 = delegate(int val)
+			{
+				callback(null, e);
+			};
+			_TimerCallbacks.Add(callback1);
+
+			Caltron.Internal.FreeGLUT.Methods.glutTimerFunc(timeout, callback1, 0);
+		}
+
 		private int mvarInterval = 0;
 		public int Interval { get { return mvarInterval; } set { mvarInterval = value; } }
 
