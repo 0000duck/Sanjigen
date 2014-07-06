@@ -683,6 +683,14 @@ namespace Caltron
 			
 			KeyboardEventArgs e = new KeyboardEventArgs(keys, modifierKeys);
 			w.OnKeyDown(e);
+
+			foreach (Control ctl in w.Controls)
+			{
+				// if (ctl == w.ActiveControl)
+				{
+					ctl.OnKeyDown(e);
+				}
+			}
 		}
         private static Internal.FreeGLUT.Delegates.KeyboardUpCallback _OnKeyboardUpCallback = new Internal.FreeGLUT.Delegates.KeyboardUpCallback(_OnKeyboardUp);
         public static void _OnKeyboardUp(byte key, int x, int y)
@@ -724,11 +732,16 @@ namespace Caltron
 			
 			int modifiers = Internal.FreeGLUT.Methods.glutGetModifiers();
 			
-			KeyboardKey keys = GetKeyboardKey(key);
+			KeyboardKey keys = GetSpecialKeyboardKey(key);
 			KeyboardModifierKey modifierKeys = (KeyboardModifierKey)modifiers;
 			
 			KeyboardEventArgs e = new KeyboardEventArgs(keys, modifierKeys);
 			w.OnKeyDown(e);
+
+			foreach (Control ctl in w.Controls)
+			{
+				ctl.OnKeyDown(e);
+			}
 		}
         private static Internal.FreeGLUT.Delegates.SpecialUpCallback _OnSpecialUpCallback = new Internal.FreeGLUT.Delegates.SpecialUpCallback(_OnSpecialUp);
         public static void _OnSpecialUp(int key, int x, int y)
@@ -746,13 +759,24 @@ namespace Caltron
 			
 			int modifiers = Internal.FreeGLUT.Methods.glutGetModifiers();
 			
-			KeyboardKey keys = GetKeyboardKey(key);
+			KeyboardKey keys = GetSpecialKeyboardKey(key);
 			KeyboardModifierKey modifierKeys = KeyboardModifierKey.None;
 			
 			KeyboardEventArgs e = new KeyboardEventArgs(keys, modifierKeys);
 			w.OnKeyUp(e);
 		}
 
+		private static KeyboardKey GetSpecialKeyboardKey(int key)
+		{
+			switch (key)
+			{
+				case 100: return KeyboardKey.ArrowLeft;
+				case 101: return KeyboardKey.ArrowUp;
+				case 102: return KeyboardKey.ArrowRight;
+				case 103: return KeyboardKey.ArrowDown;
+			}
+			return KeyboardKey.Unknown;
+		}
         private static KeyboardKey GetKeyboardKey(int key)
         {
             switch (key)
