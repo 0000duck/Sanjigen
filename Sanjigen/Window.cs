@@ -364,15 +364,12 @@ namespace Caltron
             Internal.OpenGL.Methods.glOrtho(0, w.Width, w.Height, 0, -1, 1);
 
             Internal.OpenGL.Methods.glMatrixMode(MatrixMode.ModelView);
-            Internal.OpenGL.Methods.glLoadIdentity();
+			Internal.OpenGL.Methods.glLoadIdentity();
+
+			Internal.OpenGL.Methods.glClearColor(w.BackgroundColor.Red, w.BackgroundColor.Green, w.BackgroundColor.Blue, w.BackgroundColor.Alpha);
+			Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT | Internal.OpenGL.Constants.GL_DEPTH_BUFFER_BIT);
 
             w.OnBeforeRender(bre);
-
-			if (bre.DrawBackgroundColor)
-			{
-				Internal.OpenGL.Methods.glClearColor(w.BackgroundColor.Red, w.BackgroundColor.Green, w.BackgroundColor.Blue, w.BackgroundColor.Alpha);
-				Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT | Internal.OpenGL.Constants.GL_DEPTH_BUFFER_BIT);
-			}
 
             if (bre.Cancel) return;
 
