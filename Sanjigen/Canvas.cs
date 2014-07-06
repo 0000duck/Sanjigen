@@ -1104,5 +1104,11 @@ namespace Caltron
 			double centerPointY = y + radius;
 			FillCircle(centerPointX, centerPointY, radius);
 		}
+
+		public void Clear(UniversalEditor.Color color)
+		{
+			Internal.OpenGL.Methods.glClearColor(color.Red, color.Green, color.Blue, color.Alpha);
+			Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT);
+		}
 	}
 }
