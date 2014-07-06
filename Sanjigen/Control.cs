@@ -1,4 +1,5 @@
-﻿using Caltron.Input.Mouse;
+﻿using Caltron.Input.Keyboard;
+using Caltron.Input.Mouse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,5 +126,17 @@ namespace Caltron
             if (MouseWheel != null) MouseWheel(this, e);
         }
         #endregion
-    }
+		#region Keyboard
+		public event KeyboardEventHandler KeyDown;
+		protected internal virtual void OnKeyDown(KeyboardEventArgs e)
+		{
+			if (KeyDown != null) KeyDown(this, e);
+		}
+		public event KeyboardEventHandler KeyUp;
+		protected internal virtual void OnKeyUp(KeyboardEventArgs e)
+		{
+			if (KeyUp != null) KeyUp(this, e);
+		}
+		#endregion
+	}
 }
