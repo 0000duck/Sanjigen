@@ -85,8 +85,8 @@ namespace Caltron
             if (Created != null) Created(this, e);
         }
 
-        public event RenderEventHandler BeforeRender;
-        protected internal virtual void OnBeforeRender(RenderEventArgs e)
+        public event BeforeRenderEventHandler BeforeRender;
+        protected internal virtual void OnBeforeRender(BeforeRenderEventArgs e)
         {
             if (BeforeRender != null) BeforeRender(this, e);
         }

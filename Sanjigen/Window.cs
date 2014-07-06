@@ -329,8 +329,8 @@ namespace Caltron
         #region Event Handlers
 
         #region Render
-        public event RenderEventHandler BeforeRender;
-        protected virtual void OnBeforeRender(RenderEventArgs e)
+        public event BeforeRenderEventHandler BeforeRender;
+        protected virtual void OnBeforeRender(BeforeRenderEventArgs e)
         {
             if (BeforeRender != null) BeforeRender(this, e);
         }
@@ -355,7 +355,8 @@ namespace Caltron
                 w = handleWindows[handle];
             }
 
-            RenderEventArgs re = new RenderEventArgs(w.Canvas);
+			BeforeRenderEventArgs bre = new BeforeRenderEventArgs(w.Canvas);
+			RenderEventArgs re = new RenderEventArgs(w.Canvas);
 
             Internal.OpenGL.Methods.glMatrixMode(MatrixMode.Projection);
             Internal.OpenGL.Methods.glLoadIdentity();
@@ -365,12 +366,15 @@ namespace Caltron
             Internal.OpenGL.Methods.glMatrixMode(MatrixMode.ModelView);
             Internal.OpenGL.Methods.glLoadIdentity();
 
-            w.OnBeforeRender(re);
+            w.OnBeforeRender(bre);
 
-            Internal.OpenGL.Methods.glClearColor(w.BackgroundColor.Red, w.BackgroundColor.Green, w.BackgroundColor.Blue, w.BackgroundColor.Alpha);
-            Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT | Internal.OpenGL.Constants.GL_DEPTH_BUFFER_BIT);
-            
-            if (re.Cancel) return;
+			if (bre.DrawBackgroundColor)
+			{
+				Internal.OpenGL.Methods.glClearColor(w.BackgroundColor.Red, w.BackgroundColor.Green, w.BackgroundColor.Blue, w.BackgroundColor.Alpha);
+				Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT | Internal.OpenGL.Constants.GL_DEPTH_BUFFER_BIT);
+			}
+
+            if (bre.Cancel) return;
 
             bool depthtest = Internal.OpenGL.Methods.glIsEnabled(Internal.OpenGL.Constants.GLCapabilities.DepthTesting);
             bool lighting = Internal.OpenGL.Methods.glIsEnabled(Internal.OpenGL.Constants.GLCapabilities.Lighting);
@@ -400,9 +404,12 @@ namespace Caltron
                         if (lighting) Internal.OpenGL.Methods.glDisable(Internal.OpenGL.Constants.GLCapabilities.Lighting);
                     }
 
-                    ctl.OnBeforeRender(re);
-                    ctl.OnRender(re);
-                    ctl.OnAfterRender(re);
+                    ctl.OnBeforeRender(bre);
+					if (!bre.Cancel)
+					{
+						ctl.OnRender(re);
+						ctl.OnAfterRender(re);
+					}
 
                     if (ctl is Control2D)
                     {
@@ -862,7 +869,8 @@ namespace Caltron
                     Internal.FreeGLUT.Methods.glutSetWindow(windowHandles[this]);
                 }
             }
+			Internal.FreeGLUT.Methods.glutSwapBuffers();
             Internal.FreeGLUT.Methods.glutPostRedisplay();
         }
-    }
+	}
 }
