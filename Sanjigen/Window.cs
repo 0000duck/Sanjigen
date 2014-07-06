@@ -16,6 +16,11 @@ namespace Caltron
         private static Dictionary<Window, int> windowHandles = new Dictionary<Window, int>();
         private static Dictionary<int, Window> handleWindows = new Dictionary<int, Window>();
 
+		public IControlContainer Parent
+		{
+			get { return null; }
+		}
+
         /// <summary>
         /// Gets the native handle of this FREEGLUT window.
         /// </summary>
