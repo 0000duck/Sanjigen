@@ -7,6 +7,7 @@ namespace Caltron
 {
     public interface IControlContainer
     {
+		IControlContainer Parent { get; }
         Control.ControlCollection Controls { get; }
         void Refresh();
     }
