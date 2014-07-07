@@ -973,8 +973,10 @@ namespace Caltron
 			Internal.OpenGL.Methods.glPushMatrix();
 
 			Translate(x, y);
-			Scale(size);
-			Scale(0.8, -1, 1);
+			// Scale(size);
+			// Scale(0.8, -1, 1);
+			
+			Scale (4);
 
 			Internal.OpenGL.Methods.glLineWidth(weight);
 			// Internal.OpenGL.Methods.glRasterPos2d(x, y);
@@ -1007,19 +1009,56 @@ namespace Caltron
 					return;
 				}
 				
-				Texture texture = Texture.FromFile(filename);
-				Texture oldTexture = this.Texture;
-				this.Texture = texture;
 				
-				for (int i = 0; i < text.Length; i++)
-				{
-					char chr = text[i];
-					TextureFontCharacter chara = bmpfont.Font.Characters[chr];
-					if (chara == null) continue;
+					EnableTexturing = true;
+					EnableBlending = true;
+					
+					Texture texture = Texture.FromFile(filename);
+					Texture oldTexture = this.Texture;
+					this.Texture = texture;
+					
+				Internal.OpenGL.Methods.glTexEnv(Caltron.Internal.OpenGL.Constants.TextureEnvironmentTarget.TextureEnvironment, Caltron.Internal.OpenGL.Constants.TextureEnvironmentParameterName.TextureEnvironmentMode, Caltron.Internal.OpenGL.Constants.TextureEnvironmentParameterValue.Modulate);
+				Internal.OpenGL.Methods.glBlendFunc (Caltron.Internal.OpenGL.Constants.GLBlendFunc.SourceAlpha, Caltron.Internal.OpenGL.Constants.GLBlendFunc.OneMinusSourceAlpha);
+				
+				
+					int rows = (int)(1024 / bmpfont.Font.GlyphWidth);
+					int cols = (int)(1024 / bmpfont.Font.GlyphHeight);
+				
+					for (int i = 0; i < text.Length; i++)
+					{
+						double b = y + bmpfont.Font.GlyphHeight;
+						double r = x + bmpfont.Font.GlyphWidth;
 						
-					int index = chara.Index;
-					// TODO: get 
-				}
+						char chr = text[i];
+						TextureFontCharacter chara = bmpfont.Font.Characters[chr];
+						if (chara == null) continue;
+							
+						int index = chara.Index;
+						
+						int row = (int)(index / cols) + 1;
+						int col = (int)(index % rows);
+					
+						double	xlbound = (double)(col - 1) / 1024,
+								xubound = ((double)bmpfont.Font.GlyphWidth / 1024) * row,
+								ylbound = (double)row / 1024,
+								yubound = ((double)bmpfont.Font.GlyphHeight / 1024) * col;
+					
+						Begin(RenderMode.Quads);
+						Internal.OpenGL.Methods.glTexCoord(xlbound, yubound);
+						Internal.OpenGL.Methods.glVertex2d(x, b); // The bottom left corner
+						Internal.OpenGL.Methods.glTexCoord(xlbound, ylbound);
+						Internal.OpenGL.Methods.glVertex2d(x, y); // The top left corner
+						Internal.OpenGL.Methods.glTexCoord(xubound, ylbound);
+						Internal.OpenGL.Methods.glVertex2d(r, y); // The top right corner
+						Internal.OpenGL.Methods.glTexCoord(xubound, yubound);
+						Internal.OpenGL.Methods.glVertex2d(r, b); // The bottom right corner
+						End();
+					
+						x += bmpfont.Font.GlyphWidth;
+					}
+				
+				EnableBlending = false;
+					EnableTexturing = false;
 				
 				this.Texture = oldTexture;
 			}
