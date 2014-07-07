@@ -51,6 +51,11 @@ namespace Caltron.Input.Keyboard
         W = 119,
         X = 120,
         Y = 121,
-        Z = 122
+        Z = 122,
+
+		ArrowDown = 1012,
+		ArrowUp = 1013,
+		ArrowLeft = 1014,
+		ArrowRight = 1015
     }
 }

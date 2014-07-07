@@ -40,7 +40,7 @@ namespace Caltron
             }
         }
 
-        protected internal override void OnBeforeRender(RenderEventArgs e)
+        protected internal override void OnBeforeRender(BeforeRenderEventArgs e)
         {
             base.OnBeforeRender(e);
 
@@ -111,7 +111,10 @@ namespace Caltron
                 Internal.OpenGL.Methods.glTranslated(5, 1, 0);
             }
 
-            ctl.OnBeforeRender(e);
+			BeforeRenderEventArgs bre = new BeforeRenderEventArgs(e.Canvas);
+            ctl.OnBeforeRender(bre);
+			if (bre.Cancel) return;
+
             ctl.OnRender(e);
             ctl.OnAfterRender(e);
 

@@ -67,8 +67,11 @@
     <Compile Include="Controls\Controls2D\Button.cs" />
     <Compile Include="Controls\Controls2D\Checkbox.cs" />
     <Compile Include="Controls\Controls2D\ComboBox.cs" />
+    <Compile Include="Controls\Controls2D\Image.cs" />
     <Compile Include="Controls\Controls2D\Label.cs" />
     <Compile Include="Controls\Controls2D\Popup.cs" />
+    <Compile Include="Controls\Controls2D\Screen.cs" />
+    <Compile Include="Controls\Controls2D\Screens\MenuScreen.cs" />
     <Compile Include="Controls\Controls2D\ScrollBar.cs" />
     <Compile Include="Controls\ModelControl.cs" />
     <Compile Include="CullingMode.cs" />
@@ -177,8 +180,5 @@
       <Name>UniversalEditor.Plugins.Multimedia</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ObjectModels\TextureFont\" />
-    <Folder Include="DataFormats\TextureFont\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

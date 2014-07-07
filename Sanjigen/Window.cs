@@ -16,6 +16,11 @@ namespace Caltron
         private static Dictionary<Window, int> windowHandles = new Dictionary<Window, int>();
         private static Dictionary<int, Window> handleWindows = new Dictionary<int, Window>();
 
+		public IControlContainer Parent
+		{
+			get { return null; }
+		}
+
         /// <summary>
         /// Gets the native handle of this FREEGLUT window.
         /// </summary>
@@ -329,8 +334,8 @@ namespace Caltron
         #region Event Handlers
 
         #region Render
-        public event RenderEventHandler BeforeRender;
-        protected virtual void OnBeforeRender(RenderEventArgs e)
+        public event BeforeRenderEventHandler BeforeRender;
+        protected virtual void OnBeforeRender(BeforeRenderEventArgs e)
         {
             if (BeforeRender != null) BeforeRender(this, e);
         }
@@ -355,7 +360,8 @@ namespace Caltron
                 w = handleWindows[handle];
             }
 
-            RenderEventArgs re = new RenderEventArgs(w.Canvas);
+			BeforeRenderEventArgs bre = new BeforeRenderEventArgs(w.Canvas);
+			RenderEventArgs re = new RenderEventArgs(w.Canvas);
 
             Internal.OpenGL.Methods.glMatrixMode(MatrixMode.Projection);
             Internal.OpenGL.Methods.glLoadIdentity();
@@ -363,14 +369,14 @@ namespace Caltron
             Internal.OpenGL.Methods.glOrtho(0, w.Width, w.Height, 0, -1, 1);
 
             Internal.OpenGL.Methods.glMatrixMode(MatrixMode.ModelView);
-            Internal.OpenGL.Methods.glLoadIdentity();
+			Internal.OpenGL.Methods.glLoadIdentity();
 
-            w.OnBeforeRender(re);
+			Internal.OpenGL.Methods.glClearColor(w.BackgroundColor.Red, w.BackgroundColor.Green, w.BackgroundColor.Blue, w.BackgroundColor.Alpha);
+			Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT | Internal.OpenGL.Constants.GL_DEPTH_BUFFER_BIT);
 
-            Internal.OpenGL.Methods.glClearColor(w.BackgroundColor.Red, w.BackgroundColor.Green, w.BackgroundColor.Blue, w.BackgroundColor.Alpha);
-            Internal.OpenGL.Methods.glClear(Internal.OpenGL.Constants.GL_COLOR_BUFFER_BIT | Internal.OpenGL.Constants.GL_DEPTH_BUFFER_BIT);
-            
-            if (re.Cancel) return;
+            w.OnBeforeRender(bre);
+
+            if (bre.Cancel) return;
 
             bool depthtest = Internal.OpenGL.Methods.glIsEnabled(Internal.OpenGL.Constants.GLCapabilities.DepthTesting);
             bool lighting = Internal.OpenGL.Methods.glIsEnabled(Internal.OpenGL.Constants.GLCapabilities.Lighting);
@@ -400,9 +406,12 @@ namespace Caltron
                         if (lighting) Internal.OpenGL.Methods.glDisable(Internal.OpenGL.Constants.GLCapabilities.Lighting);
                     }
 
-                    ctl.OnBeforeRender(re);
-                    ctl.OnRender(re);
-                    ctl.OnAfterRender(re);
+                    ctl.OnBeforeRender(bre);
+					if (!bre.Cancel)
+					{
+						ctl.OnRender(re);
+						ctl.OnAfterRender(re);
+					}
 
                     if (ctl is Control2D)
                     {
@@ -674,6 +683,14 @@ namespace Caltron
 			
 			KeyboardEventArgs e = new KeyboardEventArgs(keys, modifierKeys);
 			w.OnKeyDown(e);
+
+			foreach (Control ctl in w.Controls)
+			{
+				// if (ctl == w.ActiveControl)
+				{
+					ctl.OnKeyDown(e);
+				}
+			}
 		}
         private static Internal.FreeGLUT.Delegates.KeyboardUpCallback _OnKeyboardUpCallback = new Internal.FreeGLUT.Delegates.KeyboardUpCallback(_OnKeyboardUp);
         public static void _OnKeyboardUp(byte key, int x, int y)
@@ -715,11 +732,16 @@ namespace Caltron
 			
 			int modifiers = Internal.FreeGLUT.Methods.glutGetModifiers();
 			
-			KeyboardKey keys = GetKeyboardKey(key);
+			KeyboardKey keys = GetSpecialKeyboardKey(key);
 			KeyboardModifierKey modifierKeys = (KeyboardModifierKey)modifiers;
 			
 			KeyboardEventArgs e = new KeyboardEventArgs(keys, modifierKeys);
 			w.OnKeyDown(e);
+
+			foreach (Control ctl in w.Controls)
+			{
+				ctl.OnKeyDown(e);
+			}
 		}
         private static Internal.FreeGLUT.Delegates.SpecialUpCallback _OnSpecialUpCallback = new Internal.FreeGLUT.Delegates.SpecialUpCallback(_OnSpecialUp);
         public static void _OnSpecialUp(int key, int x, int y)
@@ -737,13 +759,24 @@ namespace Caltron
 			
 			int modifiers = Internal.FreeGLUT.Methods.glutGetModifiers();
 			
-			KeyboardKey keys = GetKeyboardKey(key);
+			KeyboardKey keys = GetSpecialKeyboardKey(key);
 			KeyboardModifierKey modifierKeys = KeyboardModifierKey.None;
 			
 			KeyboardEventArgs e = new KeyboardEventArgs(keys, modifierKeys);
 			w.OnKeyUp(e);
 		}
 
+		private static KeyboardKey GetSpecialKeyboardKey(int key)
+		{
+			switch (key)
+			{
+				case 100: return KeyboardKey.ArrowLeft;
+				case 101: return KeyboardKey.ArrowUp;
+				case 102: return KeyboardKey.ArrowRight;
+				case 103: return KeyboardKey.ArrowDown;
+			}
+			return KeyboardKey.Unknown;
+		}
         private static KeyboardKey GetKeyboardKey(int key)
         {
             switch (key)
@@ -862,7 +895,8 @@ namespace Caltron
                     Internal.FreeGLUT.Methods.glutSetWindow(windowHandles[this]);
                 }
             }
+			Internal.FreeGLUT.Methods.glutSwapBuffers();
             Internal.FreeGLUT.Methods.glutPostRedisplay();
         }
-    }
+	}
 }
