@@ -86,7 +86,7 @@ namespace Caltron.Controls.Controls2D.Screens
 					}
 					else
 					{
-						mvarSelectedMenuItemIndex = 0;
+						// mvarSelectedMenuItemIndex = 0;
 					}
 					Refresh();
 					break;
@@ -99,7 +99,7 @@ namespace Caltron.Controls.Controls2D.Screens
 					}
 					else
 					{
-						mvarSelectedMenuItemIndex = mvarMenuItems.Count - 1;
+						// mvarSelectedMenuItemIndex = mvarMenuItems.Count - 1;
 					}
 					Refresh();
 					break;
@@ -116,7 +116,7 @@ namespace Caltron.Controls.Controls2D.Screens
 		{
 			base.OnRender(e);
 
-			double y = 32;
+			double y = 96;
 			foreach (MenuItem mi in mvarMenuItems)
 			{
 				e.Canvas.Color = Colors.Black;
@@ -124,8 +124,8 @@ namespace Caltron.Controls.Controls2D.Screens
 				{
 					e.Canvas.Color = Colors.Red;
 				}
-				e.Canvas.DrawText(mi.Text, 32, y);
-				y += 32;
+				e.Canvas.DrawText(mi.Text, 48, y, 0.3);
+				y += 64;
 			}
 		}
 	}
