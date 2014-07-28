@@ -452,6 +452,46 @@ namespace Caltron.Internal.FreeGLUT
 			}
 			throw new PlatformNotSupportedException();
 		}
+		public static void glutFullScreen()
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					Linux.Methods.glutFullScreen();
+					return;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					Windows.Methods.glutFullScreen();
+					return;
+				case PlatformID.Xbox:
+					break;
+			}
+			throw new PlatformNotSupportedException();
+		}
+		public static void glutLeaveFullScreen()
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					Linux.Methods.glutLeaveFullScreen();
+					return;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					Windows.Methods.glutLeaveFullScreen();
+					return;
+				case PlatformID.Xbox:
+					break;
+			}
+			throw new PlatformNotSupportedException();
+		}
 		
 		public static void glutIdleFunc(Delegates.IdleCallback func)
 		{
@@ -823,7 +863,26 @@ namespace Caltron.Internal.FreeGLUT
 			}
 			throw new PlatformNotSupportedException();
 		}
-
+		public static void glutSetOption(int option, int value)
+		{
+			switch (Environment.OSVersion.Platform)
+			{
+				case PlatformID.MacOSX:
+					break;
+				case PlatformID.Unix:
+					Linux.Methods.glutSetOption(option, value);
+					return;
+				case PlatformID.Win32NT:
+				case PlatformID.Win32S:
+				case PlatformID.Win32Windows:
+				case PlatformID.WinCE:
+					Windows.Methods.glutSetOption(option, value);
+					return;
+				case PlatformID.Xbox:
+					break;
+			}
+			throw new PlatformNotSupportedException();
+		}
 		/// <summary>
 		/// Sets the special keyboard callback for the current window.
 		/// </summary>

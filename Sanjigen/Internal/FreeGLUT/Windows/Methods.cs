@@ -558,6 +558,8 @@ namespace Caltron.Internal.FreeGLUT.Windows
         //     managers may not respond to _MOTIF_WM_HINTS.
         [SuppressUnmanagedCodeSecurity, DllImport(FREEGLUT_LIBRARY)]
         public extern static void glutFullScreen();
+        [SuppressUnmanagedCodeSecurity, DllImport(FREEGLUT_LIBRARY)]
+        public extern static void glutLeaveFullScreen();
         //
         // Summary:
         //     Retrieves GLUT device information represented by integers.

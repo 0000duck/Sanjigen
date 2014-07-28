@@ -700,6 +700,8 @@ namespace Caltron.Internal.FreeGLUT.Linux
         //     managers may not respond to _MOTIF_WM_HINTS.
         [SuppressUnmanagedCodeSecurity, DllImport(LIBRARY_GLUT)]
         public extern static void glutFullScreen();
+        [SuppressUnmanagedCodeSecurity, DllImport(LIBRARY_GLUT)]
+        public extern static void glutLeaveFullScreen();
         //
         // Summary:
         //     Retrieves GLUT device information represented by integers.
