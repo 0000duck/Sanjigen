@@ -16,6 +16,7 @@ namespace Caltron
         {
             Internal.FreeGLUT.Methods.glutInit(ref args);
             Internal.FreeGLUT.Methods.glutInitDisplayMode(Internal.FreeGLUT.Constants.GLUT_DOUBLE | Internal.FreeGLUT.Constants.GLUT_RGBA | Internal.FreeGLUT.Constants.GLUT_DEPTH | Internal.FreeGLUT.Constants.GLUT_MULTISAMPLE | Internal.FreeGLUT.Constants.GLUT_ACCUM | Internal.FreeGLUT.Constants.GLUT_ALPHA);
+			Internal.FreeGLUT.Methods.glutSetOption(Internal.FreeGLUT.Constants.GLUT_ACTION_ON_WINDOW_CLOSE, Internal.FreeGLUT.Constants.GLUT_ACTION_CONTINUE_EXECUTION);
             return true;
         }
         public static void Start()
