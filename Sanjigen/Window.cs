@@ -140,7 +140,19 @@ namespace Caltron
             set
             {
                 if (value == mvarFullScreen) return;
-
+				
+				Internal.FreeGLUT.Methods.glutSetWindow(windowHandles[this]);
+				
+				if (value)
+				{
+					Internal.FreeGLUT.Methods.glutFullScreen();
+				}
+				else
+				{
+					Internal.FreeGLUT.Methods.glutLeaveFullScreen();
+				}
+				
+				/*
                 if (value)
                 {
                     switch (Environment.OSVersion.Platform)
@@ -148,6 +160,8 @@ namespace Caltron
                         case PlatformID.MacOSX:
                         case PlatformID.Unix:
                         {
+							Internal.FreeGLUT.Methods.glutGameModeString("1920x1080:32@60");
+							Internal.FreeGLUT.Methods.glutEnterGameMode();
                             break;
                         }
                         case PlatformID.Win32NT:
@@ -180,6 +194,7 @@ namespace Caltron
                         case PlatformID.MacOSX:
                         case PlatformID.Unix:
                         {
+							Internal.FreeGLUT.Methods.glutLeaveGameMode();
                             break;
                         }
                         case PlatformID.Win32NT:
@@ -203,7 +218,8 @@ namespace Caltron
                         }
                     }
                 }
-
+                */
+				
                 mvarFullScreen = value;
                 /*
                 if (value)
@@ -873,6 +889,11 @@ namespace Caltron
             get { return mvarSize; }
             set
             {
+				if (value.Width <= 0 || value.Height <= 0)
+				{
+					throw new ArgumentException("Neither width nor height are allowed to be zero");
+				}
+				
                 mvarSize = value;
 
                 if (mvarLastFullscreenWindow != null) return;
