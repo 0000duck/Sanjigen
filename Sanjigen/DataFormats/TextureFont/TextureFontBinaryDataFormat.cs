@@ -8,13 +8,12 @@ namespace Caltron.DataFormats.TextureFont
 	public class TextureFontBinaryDataFormat : DataFormat
 	{
 		private static DataFormatReference _dfr = null;
-		public override DataFormatReference MakeReference ()
+		protected override DataFormatReference MakeReferenceInternal()
 		{
 			if (_dfr == null)
 			{
-				_dfr = base.MakeReference ();
+				_dfr = base.MakeReferenceInternal ();
 				_dfr.Capabilities.Add (typeof(TextureFontObjectModel), DataFormatCapabilities.All);
-				_dfr.Filters.Add ("Binary texture font data", new byte?[][] { new byte?[] { (byte)'G', (byte)'L', (byte)'T', (byte)'E', (byte)'X', (byte)'F', (byte)'N', (byte)'T' } }, new string[] { "*.txf" });
 			}
 			return _dfr;
 		}
