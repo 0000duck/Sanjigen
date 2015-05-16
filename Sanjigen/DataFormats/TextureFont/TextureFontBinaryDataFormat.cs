@@ -12,8 +12,9 @@ namespace Caltron.DataFormats.TextureFont
 		{
 			if (_dfr == null)
 			{
-				_dfr = base.MakeReferenceInternal();
-				_dfr.Capabilities.Add(typeof(TextureFontObjectModel), DataFormatCapabilities.All);
+
+				_dfr = base.MakeReferenceInternal ();
+				_dfr.Capabilities.Add (typeof(TextureFontObjectModel), DataFormatCapabilities.All);
 			}
 			return _dfr;
 		}

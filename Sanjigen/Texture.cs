@@ -44,13 +44,13 @@ namespace Caltron
 			Texture texture = new Texture(textureID);
 			texture.Target = TextureTarget.Texture2D;
 
-            texture.FileName = FileName;
+			texture.FileName = FileName;
 
-            texture.MinFilter = TextureFilter.Linear;
-            texture.MagFilter = TextureFilter.Linear;
-            // texture.TextureWrapR = TextureWrap.Repeat;
-            texture.TextureWrapS = TextureWrap.Repeat;
-            texture.TextureWrapT = TextureWrap.Repeat;
+			texture.MinFilter = TextureFilter.Linear;
+			texture.MagFilter = TextureFilter.Linear;
+			// texture.TextureWrapR = TextureWrap.Repeat;
+			texture.TextureWrapS = TextureWrap.Repeat;
+			texture.TextureWrapT = TextureWrap.Repeat;
 
 			texture.Rotation = rotation;
 			texture.Flip = flip;
@@ -90,11 +90,11 @@ namespace Caltron
 			{
 				mvarMinFilter = value;
 
-                Internal.OpenGL.Methods.glBindTexture(mvarTarget, mvarID);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glBindTexture(mvarTarget, mvarID);
+				Internal.OpenGL.Methods.glErrorToException();
 
-                Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.MinimumFilter, (int)mvarMinFilter);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.MinimumFilter, (int)mvarMinFilter);
+				Internal.OpenGL.Methods.glErrorToException();
 			}
 		}
 		private TextureFilter mvarMagFilter = TextureFilter.Linear;
@@ -105,11 +105,11 @@ namespace Caltron
 			{
 				mvarMagFilter = value;
 
-                Internal.OpenGL.Methods.glBindTexture(mvarTarget, mvarID);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glBindTexture(mvarTarget, mvarID);
+				Internal.OpenGL.Methods.glErrorToException();
 
-                Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.MaximumFilter, (int)mvarMagFilter);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.MaximumFilter, (int)mvarMagFilter);
+				Internal.OpenGL.Methods.glErrorToException();
 			}
 		}
 
@@ -121,8 +121,8 @@ namespace Caltron
 			{
 				mvarTextureWrapS = value;
 
-                Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.TextureWrapS, (int)mvarTextureWrapS);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.TextureWrapS, (int)mvarTextureWrapS);
+				Internal.OpenGL.Methods.glErrorToException();
 			}
 		}
 		private TextureWrap mvarTextureWrapT = TextureWrap.Repeat;
@@ -133,8 +133,8 @@ namespace Caltron
 			{
 				mvarTextureWrapT = value;
 
-                Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.TextureWrapT, (int)mvarTextureWrapT);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.TextureWrapT, (int)mvarTextureWrapT);
+				Internal.OpenGL.Methods.glErrorToException();
 			}
 		}
 		private TextureWrap mvarTextureWrapR = TextureWrap.Repeat;
@@ -145,8 +145,8 @@ namespace Caltron
 			{
 				mvarTextureWrapR = value;
 
-                Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.TextureWrapR, (int)mvarTextureWrapR);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glTexParameter(Internal.OpenGL.Constants.TextureParameterTarget.Texture2D, Internal.OpenGL.Constants.TextureParameterName.TextureWrapR, (int)mvarTextureWrapR);
+				Internal.OpenGL.Methods.glErrorToException();
 			}
 		}
 
@@ -168,8 +168,8 @@ namespace Caltron
 
 				if (!System.IO.File.Exists(mvarFileName)) return;
 
-                PictureObjectModel pic = UniversalEditor.Common.Reflection.GetAvailableObjectModel<PictureObjectModel>(mvarFileName);
-                if (pic == null) return;
+				PictureObjectModel pic = UniversalEditor.Common.Reflection.GetAvailableObjectModel<PictureObjectModel>(new UniversalEditor.Accessors.FileAccessor(mvarFileName));
+				if (pic == null) return;
 
 				TextureImage = pic;
 			}
@@ -261,7 +261,7 @@ namespace Caltron
 				System.Drawing.Imaging.BitmapData bmpBits = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
 
 				Internal.OpenGL.Methods.glBindTexture(mvarTarget, mvarID);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glErrorToException();
 				
 				Internal.OpenGL.Constants.GLTextureInternalFormat internalFormat = Internal.OpenGL.Constants.GLTextureInternalFormat.RGBA8;
 				Internal.OpenGL.Constants.GLTextureFormat format = Internal.OpenGL.Constants.GLTextureFormat.BGRA;
@@ -283,7 +283,7 @@ namespace Caltron
 				 */
 
 				Internal.OpenGL.Methods.glTexImage2D(mvarTarget, 0, internalFormat, bmp.Width, bmp.Height, 0, format, Internal.OpenGL.Constants.GLTextureType.UnsignedByte, bmpBits.Scan0);
-                Internal.OpenGL.Methods.glErrorToException();
+				Internal.OpenGL.Methods.glErrorToException();
 
 				bmp.UnlockBits(bmpBits);
 				bmp.Dispose();
@@ -311,9 +311,9 @@ namespace Caltron
 			}
 
 			uint[] textureIDs = new uint[1];
-            
-            Internal.OpenGL.Methods.glGenTextures(1, textureIDs);
-            Internal.OpenGL.Methods.glErrorToException();
+			
+			Internal.OpenGL.Methods.glGenTextures(1, textureIDs);
+			Internal.OpenGL.Methods.glErrorToException();
 
 			uint textureID = textureIDs[0];
 
